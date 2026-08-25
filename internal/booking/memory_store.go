@@ -1,13 +1,22 @@
 package booking
 
 type MemoryStore struct {
-	//seats -> booking
+	bookings map[string]Booking
 }
 
-func Book(b Booking) (Booking, error) {
-
+// constructor
+func NewMemoryStore() *MemoryStore {
+	return &MemoryStore{
+		bookings: make(map[string]Booking),
+	}
 }
 
-func ListBookings(movieID string) []Booking {
+func (s *MemoryStore) Book(b Booking) (Booking, error) {
+	if _, exists := s.bookings[b.SeatID]; exists {
+		return b, ErrSeatAlreadyExists
+	}
+}
+
+func (s *MemoryStore) ListBookings(movieID string) []Booking {
 
 }
