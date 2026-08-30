@@ -15,8 +15,16 @@ func (s *MemoryStore) Book(b Booking) (Booking, error) {
 	if _, exists := s.bookings[b.SeatID]; exists {
 		return b, ErrSeatAlreadyExists
 	}
+	s.bookings[b.SeatID] = b
+	return b, nil
 }
 
 func (s *MemoryStore) ListBookings(movieID string) []Booking {
-
+	var result []Booking
+	for _, b := range s.bookings {
+		if b.MovieID == movieID {
+			result = append(result, b)
+		}
+	}
+	return result
 }
